@@ -71,6 +71,26 @@ struct node{
 	struct node *right;
 };
 
+bool tree_inorder(struct node_dll *head, struct node *root)
+{
+	if (root == NULL || head == NULL)
+		return true;
+	tree_inorder(head,root->left);
+	
+	if (head->data != root->data)
+		return false;
+
+	head = head->next;
+	tree_inorder(head, root->right);
+}
+
 int is_identical(struct node_dll *head, struct node *root){
-	return -1;
+	bool correct = true;
+	if (head == NULL || root == NULL)
+		return -1;
+	
+	if (tree_inorder(head, root))
+		return 1;
+
+	return 0;
 }
