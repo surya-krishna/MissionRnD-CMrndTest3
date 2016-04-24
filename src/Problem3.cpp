@@ -81,7 +81,7 @@ int getOperand(char *data){
 	return sum;
 }
 //Helper Functions end
-char* tree_oper(struct enode *root,int *exp_val)
+/*char* tree_oper(struct enode *root,int *exp_val)
 {
 	int num;
 	if (root == NULL)
@@ -97,8 +97,30 @@ char* tree_oper(struct enode *root,int *exp_val)
 		*exp_val = (getOperand(tree_oper(root->left, exp_val)) - getOperand(tree_oper(root->right, exp_val)));
 	else
 	if (root->data[0] == '*')
+	{
 		*exp_val = (getOperand(tree_oper(root->left, exp_val)) * getOperand(tree_oper(root->right, exp_val)));
+	}
 
+}*/
+int tree_oper(struct enode *root)
+{
+	int num;
+	if (root == NULL)
+		return 0;
+	if (root->left == NULL&&root->right == NULL)
+	{
+		return getOperand(root->data);
+	}
+	if (root->data[0] == '+')
+		return (tree_oper(root->left) + tree_oper(root->right));
+	else
+	if (root->data[0] == '-')
+		return (tree_oper(root->left) - tree_oper(root->right));
+	else
+	if (root->data[0] == '*')
+	{
+		return (tree_oper(root->left) *tree_oper(root->right));
+	}
 
 }
 int solve_tree(struct enode *root)
@@ -106,7 +128,7 @@ int solve_tree(struct enode *root)
 	if (root == NULL)
 		return -1;
 	int exp_val = 0;
-	tree_oper(root,&exp_val);
+	exp_val=tree_oper(root);
 	return exp_val;
 }
 
